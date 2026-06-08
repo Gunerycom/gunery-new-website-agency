@@ -2202,6 +2202,11 @@ document.addEventListener('DOMContentLoaded', () => {
             langButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
 
+            // Update URL search parameter for shareability (e.g. on WhatsApp)
+            const url = new URL(window.location.href);
+            url.searchParams.set('lang', targetLang);
+            window.history.replaceState(null, '', url.pathname + url.search + url.hash);
+
             switchLanguage(targetLang);
         });
     });
@@ -2822,5 +2827,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         }
+    }
+
+    // Check URL for language parameter on load
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lang');
+    const supportedLangs = Array.from(langButtons).map(btn => btn.getAttribute('data-lang'));
+    
+    if (urlLang && supportedLangs.includes(urlLang.toLowerCase()) && urlLang.toLowerCase() !== 'en') {
+        const targetLang = urlLang.toLowerCase();
+        // Update switcher UI state
+        langButtons.forEach(btn => {
+            if (btn.getAttribute('data-lang') === targetLang) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        switchLanguage(targetLang);
     }
 });
