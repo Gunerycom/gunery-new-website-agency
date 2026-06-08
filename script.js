@@ -1651,6 +1651,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const taglineTexts = document.querySelectorAll('.tagline-text');
     let currentLang = 'en';
 
+    // Helper to get article translation
+    function getArticle(slug) {
+        const rawContent = articleContent[slug];
+        if (!rawContent) return null;
+        return rawContent[currentLang] || rawContent['en'];
+    }
+
     // Navigation and Mega Menu Elements
     const navItems = document.querySelectorAll('.nav-item');
     const megaMenu = document.getElementById('megaMenu');
