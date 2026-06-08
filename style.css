@@ -1850,6 +1850,7 @@ html, body {
     body.scroll-locked {
         overflow: hidden !important;
         height: 100vh !important;
+        height: 100dvh !important;
     }
 
     /* Mobile Drawer */
@@ -2175,8 +2176,17 @@ html, body {
     }
 
     .page-wrapper {
+        height: auto;
+        min-height: 100vh;
+        min-height: 100dvh;
         padding: 24px 24px 24px 24px;
         z-index: auto;
+    }
+
+    .header,
+    .tagline,
+    .copyright {
+        flex-shrink: 0;
     }
 
     .header {
