@@ -2176,6 +2176,11 @@ html, body {
 
     .page-wrapper {
         padding: 24px 24px 24px 24px;
+        z-index: auto;
+    }
+
+    .header {
+        z-index: 1100;
     }
 
     .services-accordion {
