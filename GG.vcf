@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Guneri;Gokhan;;;
+FN:Gokhan Guneri
+ORG:Gunery
+TEL;TYPE=CELL,VOICE:+905322136397
+TEL;TYPE=CELL,VOICE:+573142940232
+EMAIL;TYPE=PREF,INTERNET:gokhan@gunery.com
+URL:https://gunery.com
+X-SOCIALPROFILE;type=linkedin:https://www.linkedin.com/in/gokhan-guneri/
+END:VCARD

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Okan Guneri contact card. Save details directly to your phone, connect on WhatsApp, LinkedIn, email, or visit gunery.com.">
+    <title>Okan Guneri — Contact Card</title>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.gunery.com/OG.html">
+    <meta property="og:title" content="Okan Guneri — Contact Card">
+    <meta property="og:description" content="Save Okan Guneri's contact info directly to your phone, or connect on WhatsApp, LinkedIn, and email.">
+    <meta property="og:image" content="https://www.gunery.com/OG%20photo.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.gunery.com/OG.html">
+    <meta property="twitter:title" content="Okan Guneri — Contact Card">
+    <meta property="twitter:description" content="Save Okan Guneri's contact info directly to your phone, or connect on WhatsApp, LinkedIn, and email.">
+    <meta property="twitter:image" content="https://www.gunery.com/OG%20photo.jpg">
+
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================
+           RESET & BASE STYLES
+           ============================================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #050505;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 16px;
+        }
+
+        /* ============================================
+           GLOWING BACKGROUND ELEMENTS
+           ============================================ */
+        .bg-glow {
+            position: fixed;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .bg-glow-1 {
+            top: 10%;
+            left: -50px;
+            background: #4f46e5; /* Indigo */
+            animation: floatGlow1 12s infinite alternate ease-in-out;
+        }
+        .bg-glow-2 {
+            bottom: 15%;
+            right: -50px;
+            background: #7c3aed; /* Violet */
+            animation: floatGlow2 15s infinite alternate ease-in-out;
+        }
+
+        @keyframes floatGlow1 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(40px, 30px) scale(1.1); }
+        }
+        @keyframes floatGlow2 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-30px, -40px) scale(1.15); }
+        }
+
+        /* ============================================
+           MAIN CARD CONTAINER
+           ============================================ */
+        .vcard-wrapper {
+            width: 100%;
+            max-width: 380px;
+            z-index: 10;
+            margin: auto 0;
+        }
+
+        .vcard-container {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            padding: 32px 24px;
+            text-align: center;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            transform: translateY(24px);
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================
+           BRAND LOGO & AVATAR
+           ============================================ */
+        .brand-logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .brand-logo {
+            height: 12px;
+            width: auto;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        .brand-logo:hover {
+            opacity: 1;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 20px auto;
+        }
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .avatar-container::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.15) 100%);
+            z-index: -1;
+            transition: opacity 0.4s ease;
+            opacity: 0.6;
+        }
+        .avatar-container:hover .avatar-img {
+            transform: scale(1.04);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+        .avatar-container:hover::after {
+            opacity: 1;
+        }
+
+        /* ============================================
+           PROFILE DETAILS
+           ============================================ */
+        .profile-name {
+            font-size: 24px;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+        .profile-company {
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+
+        /* ============================================
+           PRIMARY BUTTON: ADD TO CONTACTS
+           ============================================ */
+        .btn-add-contact {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            background: #ffffff;
+            color: #000000;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 15px 24px;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.06);
+            margin-bottom: 6px;
+        }
+        .btn-add-contact:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(255, 255, 255, 0.12);
+        }
+        .btn-add-contact:active {
+            transform: translateY(0);
+        }
+        .btn-add-contact svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: currentColor;
+        }
+
+        .btn-help-text {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 24px;
+            display: block;
+        }
+
+        /* ============================================
+           CONTACT LINKS ACTION LIST
+           ============================================ */
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.75);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            transform: translateX(4px);
+        }
+        .contact-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.5);
+            flex-shrink: 0;
+            transition: all 0.25s ease;
+        }
+        .contact-item:hover .contact-icon {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+        .contact-icon svg {
+            width: 15px;
+            height: 15px;
+        }
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .contact-label {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.35);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 2px;
+        }
+        .contact-value {
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+        }
+
+        /* ============================================
+           FOOTER SECTION
+           ============================================ */
+        .vcard-footer {
+            margin-top: 24px;
+            text-align: center;
+            z-index: 10;
+        }
+        .btn-show-qr {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 11px;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            margin-bottom: 12px;
+        }
+        .btn-show-qr:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+        .btn-show-qr svg {
+            width: 13px;
+            height: 13px;
+        }
+        .copyright {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.2);
+            letter-spacing: 0.05em;
+        }
+        .copyright sup {
+            font-size: 6px;
+            vertical-align: super;
+        }
+
+        /* ============================================
+           QR CODE MODAL OVERLAY
+           ============================================ */
+        .qr-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 16px;
+        }
+        .qr-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .qr-modal {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 30px 24px;
+            max-width: 320px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.8);
+            transform: scale(0.9);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .qr-overlay.active .qr-modal {
+            transform: scale(1);
+        }
+        .qr-modal-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .qr-modal-desc {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.45);
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+        .qr-code-box {
+            background: #ffffff;
+            width: 190px;
+            height: 190px;
+            margin: 0 auto 24px auto;
+            border-radius: 16px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .qr-code-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .btn-close-qr {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.25s ease;
+        }
+        .btn-close-qr:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient background glow -->
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+
+    <!-- Main Card Wrapper -->
+    <div class="vcard-wrapper">
+        <div class="vcard-container">
+            
+            <!-- Brand Logo at Top -->
+            <div class="brand-logo-container">
+                <img src="Gunery Type Logo - White.png" alt="Gunery" class="brand-logo" id="brandLogo">
+            </div>
+
+            <!-- Profile Image -->
+            <div class="avatar-container">
+                <img src="OG photo.jpg" alt="Okan Guneri" class="avatar-img" id="avatarImg">
+            </div>
+
+            <!-- Profile Info -->
+            <h1 class="profile-name">Okan Guneri</h1>
+            <div class="profile-company">Gunery</div>
+
+            <!-- Primary Action Button: Add to Contacts -->
+            <a href="OG.vcf" download="OG.vcf" class="btn-add-contact" id="btnSaveContact">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="8.5" cy="7" r="4"></circle>
+                    <line x1="20" y1="8" x2="20" y2="14"></line>
+                    <line x1="23" y1="11" x2="17" y2="11"></line>
+                </svg>
+                Add to Contacts
+            </a>
+            <span class="btn-help-text">Direct download for mobile & desktop</span>
+
+            <!-- Action Grid / List Links -->
+            <div class="contact-links">
+                
+                <!-- WhatsApp -->
+                <a href="https://wa.me/905439748067" target="_blank" rel="noopener noreferrer" class="contact-item" id="linkWhatsApp">
+                    <div class="contact-icon">
+                        <!-- WhatsApp Brand Icon SVG -->
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.964 9.964 0 0 0 1.37 5.016L2 22l5.164-1.354a9.959 9.959 0 0 0 4.846 1.258h.004c5.507 0 9.99-4.478 9.99-9.984C22.007 6.478 17.521 2 12.012 2zm5.722 14.12c-.25.707-1.467 1.3-2.007 1.384-.493.076-1.13.136-3.28-.756-2.75-1.14-4.515-3.93-4.653-4.114-.138-.184-1.12-1.49-1.12-2.842 0-1.353.708-2.016.96-2.28.25-.262.545-.327.728-.327.182 0 .363.001.522.007.168.007.394-.064.616.48.228.557.78 1.905.847 2.043.068.138.113.298.02.482-.09.184-.138.298-.273.456-.135.158-.285.35-.407.47-.138.136-.282.285-.12.564.162.28.718 1.182 1.54 1.91.606.54 1.116.896 1.412 1.042.298.146.47.124.646-.079.176-.204.75-.873.95-1.17.202-.296.402-.248.68-.147.28.102 1.776.836 2.08 1.002.304.164.507.248.582.372.076.124.076.718-.174 1.425z"/>
+                        </svg>
+                    </div>
+                    <div class="contact-info">
+                        <span class="contact-label">WhatsApp</span>
+                        <span class="contact-value">+90 543 974 80 67</span>
+                    </div>
+                </a>
+
+                <!-- Call TR -->
+                <a href="tel:+905439748067" class="contact-item" id="linkCallTR">
+                    <div class="contact-icon">
+                        <!-- Phone SVG -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                    </div>
+                    <div class="contact-info">
+                        <span class="contact-label">Call (Turkiye)</span>
+                        <span class="contact-value">+90 543 974 80 67</span>
+                    </div>
+                </a>
+
+                <!-- Call COL -->
+                <a href="tel:+573142940232" class="contact-item" id="linkCallCOL">
+                    <div class="contact-icon">
+                        <!-- Phone SVG -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                    </div>
+                    <div class="contact-info">
+                        <span class="contact-label">Call (Colombia)</span>
+                        <span class="contact-value">+57 314 2940232</span>
+                    </div>
+                </a>
+
+                <!-- Email -->
+                <a href="mailto:okan@gunery.com" class="contact-item" id="linkEmail">
+                    <div class="contact-icon">
+                        <!-- Mail SVG -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                    </div>
+                    <div class="contact-info">
+                        <span class="contact-label">Email</span>
+                        <span class="contact-value">okan@gunery.com</span>
+                    </div>
+                </a>
+
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/in/okan-g%C3%BCneri-04a908148/" target="_blank" rel="noopener noreferrer" class="contact-item" id="linkLinkedIn">
+                    <div class="contact-icon">
+                        <!-- LinkedIn SVG -->
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </div>
+                    <div class="contact-info">
+                        <span class="contact-label">LinkedIn</span>
+                        <span class="contact-value">/in/okan-güneri-04...</span>
+                    </div>
+                </a>
+
+                <!-- Website -->
+                <a href="https://gunery.com" target="_blank" rel="noopener noreferrer" class="contact-item" id="linkWebsite">
+                    <div class="contact-icon">
+                        <!-- Globe SVG -->
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                        </svg>
+                    </div>
+                    <div class="contact-info">
+                        <span class="contact-label">Website</span>
+                        <span class="contact-value">gunery.com</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Controls -->
+    <div class="vcard-footer">
+        <button class="btn-show-qr" id="btnShowQR">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            Show QR Code
+        </button>
+        <div class="copyright">&copy; 2026 Gunery<sup>&reg;</sup></div>
+    </div>
+
+    <!-- QR Code Modal Backdrop -->
+    <div class="qr-overlay" id="qrOverlay">
+        <div class="qr-modal">
+            <h2 class="qr-modal-title">Share Contact</h2>
+            <p class="qr-modal-desc">Scan this QR code with another mobile phone to share Okan's contact details instantly.</p>
+            <div class="qr-code-box">
+                <!-- QR Code image generated dynamically based on window.location.href -->
+                <img id="qrCodeImg" src="" alt="QR Code">
+            </div>
+            <button class="btn-close-qr" id="btnCloseQR">Close</button>
+        </div>
+    </div>
+
+    <!-- Page Logic -->
+    <script>
+        // Modal Triggering
+        const btnShowQR = document.getElementById('btnShowQR');
+        const btnCloseQR = document.getElementById('btnCloseQR');
+        const qrOverlay = document.getElementById('qrOverlay');
+        const qrCodeImg = document.getElementById('qrCodeImg');
+
+        btnShowQR.addEventListener('click', () => {
+            // Get current location, fall back to default if opened locally
+            let currentUrl = window.location.href;
+            if (currentUrl.startsWith('file://')) {
+                currentUrl = 'https://gunery.com/OG';
+            }
+            
+            // Build API url for QR Code
+            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&color=000000&data=${encodeURIComponent(currentUrl)}`;
+            qrCodeImg.src = qrApiUrl;
+            
+            // Show overlay
+            qrOverlay.classList.add('active');
+        });
+
+        const hideQRModal = () => {
+            qrOverlay.classList.remove('active');
+        };
+
+        btnCloseQR.addEventListener('click', hideQRModal);
+        qrOverlay.addEventListener('click', (e) => {
+            if (e.target === qrOverlay) {
+                hideQRModal();
+            }
+        });
+    </script>
+</body>
+</html>
