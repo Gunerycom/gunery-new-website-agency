@@ -2176,8 +2176,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // 3. Translate accordion and works card elements using data attributes
-        const translatableElements = document.querySelectorAll('#servicesWrapper [data-en], #servicesWrapper [data-tr], #worksCard [data-en], #worksCard [data-tr]');
+        // 3. Translate accordion, works card and power hint elements using data attributes
+        const translatableElements = document.querySelectorAll('#servicesWrapper [data-en], #servicesWrapper [data-tr], #worksCard [data-en], #worksCard [data-tr], #powerHint [data-en], #powerHint [data-tr]');
         translatableElements.forEach(element => {
             const newText = element.getAttribute(`data-${lang}`);
             if (newText) {

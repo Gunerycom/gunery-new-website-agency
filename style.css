@@ -394,25 +394,48 @@ html, body {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-    padding: 16px 28px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 8px 16px;
     display: flex;
     align-items: center;
+    gap: 8px;
     transition: background 0.4s ease, border-color 0.4s ease;
 }
 
 .services-title-card:hover {
     background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.services-title-dot {
+    width: 6px;
+    height: 6px;
+    background: #00ff66;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00ff66;
+    animation: hintDotPulseGreen 1.5s infinite;
+}
+
+@keyframes hintDotPulseGreen {
+    0%, 100% {
+        opacity: 0.5;
+        transform: scale(0.9);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.25);
+        box-shadow: 0 0 12px rgba(0, 255, 102, 0.8);
+    }
 }
 
 .services-title-text {
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
+    font-size: 11.5px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
     color: rgba(255, 255, 255, 0.95);
-    text-transform: uppercase;
+    text-transform: none;
+    white-space: nowrap;
 }
 
 .services-accordion {
@@ -1871,21 +1894,22 @@ html, body {
 
 /* Power Button Style */
 .power-btn {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     outline: none;
-    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.08);
     position: relative;
     overflow: hidden;
+    z-index: 101; /* Stay above sonar and hint */
 }
 
 .power-btn::before {
@@ -1920,22 +1944,22 @@ html, body {
 }
 
 .power-btn:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
     color: #fff;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.25), inset 0 1px 2px rgba(255, 255, 255, 0.2);
 }
 
 .power-btn.active {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.15);
     border-color: #fff;
     color: #fff;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.3);
 }
 
 .power-btn svg {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     transition: transform 0.4s ease;
 }
 
@@ -1944,11 +1968,110 @@ html, body {
     filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
 }
 
+/* Power Button Sonar Wave */
+.power-btn-sonar {
+    position: absolute;
+    left: 24px;
+    top: 24px;
+    width: 48px;
+    height: 48px;
+    margin-left: -24px;
+    margin-top: -24px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+    z-index: 99;
+    opacity: 0;
+    transform: scale(1);
+    animation: sonarRipple 4s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+}
+
+.power-btn.active ~ .power-btn-sonar {
+    animation: none;
+    opacity: 0;
+    display: none;
+}
+
+@keyframes sonarRipple {
+    0% {
+        transform: scale(0.95);
+        opacity: 0;
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
+    }
+    10% {
+        opacity: 0.85;
+        border-color: rgba(255, 255, 255, 0.4);
+    }
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+        border-color: rgba(255, 255, 255, 0);
+        box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0);
+    }
+}
+
+/* Floating Power Text Hint */
+.power-hint {
+    position: absolute;
+    left: 60px;
+    top: 50%;
+    transform: translateY(-50%) translateX(0);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.95);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 1;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 98;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Auto-hide hint when button is active or hovered (showing tooltip instead) */
+.power-btn.active ~ .power-hint,
+.power-btn:hover ~ .power-hint {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(-50%) translateX(-15px) !important;
+    transition: all 0.3s ease;
+}
+
+.power-hint-dot {
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #fff;
+    animation: hintDotPulse 1.5s infinite;
+}
+
+@keyframes hintDotPulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: scale(0.9);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.25);
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+    }
+}
+
 /* Power Button Tooltip */
 .power-btn::after {
     content: attr(data-tooltip);
     position: absolute;
-    left: 56px;
+    left: 60px;
     top: 50%;
     transform: translateY(-50%) translateX(-10px);
     background: rgba(0, 0, 0, 0.85);
@@ -1975,7 +2098,7 @@ html, body {
 /* Works Card Glass style */
 .works-card {
     position: absolute;
-    left: 62px;
+    left: 68px;
     top: 50%;
     transform: translateY(-50%) translateX(-30px);
     width: 660px;
@@ -2731,6 +2854,48 @@ html, body {
     
     .power-btn::after {
         display: none !important;
+    }
+
+    .power-btn-sonar {
+        left: 50% !important;
+        top: 24px !important;
+        margin: 0 !important;
+        transform: translate(-50%, -50%) scale(1);
+        animation: sonarRippleMobile 4s cubic-bezier(0.1, 0.8, 0.3, 1) infinite !important;
+    }
+
+    @keyframes sonarRippleMobile {
+        0% {
+            transform: translate(-50%, -50%) scale(0.95);
+            opacity: 0;
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
+        }
+        10% {
+            opacity: 0.85;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        100% {
+            transform: translate(-50%, -50%) scale(1.8);
+            opacity: 0;
+            border-color: rgba(255, 255, 255, 0);
+            box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0);
+        }
+    }
+
+    .power-hint {
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        transform: translateY(0) !important;
+        margin: 0 auto !important;
+        opacity: 1 !important;
+        transition: all 0.5s ease;
+    }
+
+    .power-btn.active ~ .power-hint,
+    .power-btn:hover ~ .power-hint {
+        display: none !important;
+        opacity: 0 !important;
     }
 
     .works-card {
