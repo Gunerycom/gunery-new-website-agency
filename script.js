@@ -1645,6 +1645,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Accordion Elements
     const accordion = document.getElementById('servicesAccordion');
     const accordionItems = accordion.querySelectorAll('.accordion-item');
+    const worksCard = document.getElementById('worksCard');
+
+    function syncWorksCardHeight() {
+        if (!worksCard) return;
+        // Let CSS handle the card height (230px/250px) to prevent stretching and distortion
+        worksCard.style.height = '';
+    }
 
     // Language Selector Elements
     const langButtons = document.querySelectorAll('.lang-btn');
@@ -1695,6 +1702,9 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 accordion.classList.remove('has-active');
             }
+
+            // Sync works card height
+            setTimeout(syncWorksCardHeight, 50);
         });
     });
 
@@ -2166,8 +2176,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // 3. Translate accordion elements using data attributes
-        const translatableElements = accordion.querySelectorAll('[data-en], [data-tr]');
+        // 3. Translate accordion and works card elements using data attributes
+        const translatableElements = document.querySelectorAll('#servicesWrapper [data-en], #servicesWrapper [data-tr], #worksCard [data-en], #worksCard [data-tr]');
         translatableElements.forEach(element => {
             const newText = element.getAttribute(`data-${lang}`);
             if (newText) {
@@ -2191,6 +2201,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mobileDrawer && mobileDrawer.classList.contains('active')) {
             renderMobileDrawer(currentLang);
         }
+
+        // 7. Update power button tooltip translations
+        if (typeof updatePowerTooltip === 'function') {
+            updatePowerTooltip();
+        }
+
+        // Sync works card height
+        setTimeout(syncWorksCardHeight, 50);
     }
 
     langButtons.forEach(button => {
@@ -2502,6 +2520,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 megaMenu.style.height = '';
                 megaMenu.style.maxHeight = '';
             }
+        }
+        
+        // Sync works card height
+        if (typeof syncWorksCardHeight === 'function') {
+            syncWorksCardHeight();
         }
     });
 
@@ -2827,6 +2850,115 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         }
+    }
+
+    // --------------------------------------------
+    // WORKS SHOWCASE SLIDER & POWER BUTTON LOGIC
+    // --------------------------------------------
+    const powerBtn = document.getElementById('powerBtn');
+    const worksPrevBtn = document.getElementById('worksPrevBtn');
+    const worksNextBtn = document.getElementById('worksNextBtn');
+
+    const worksData = [
+        {
+            image: "outdoor factory gunery.png",
+            client: "Outdoor Factory",
+            scopeEn: "Branding Update · Content Creation · Website Dev",
+            scopeTr: "Marka Güncellemesi · İçerik Üretimi · Web Geliştirme",
+            descEn: "Redesigning the digital presence for one of the world's largest amusement park builders with an overhauled identity and high-performance web experience.",
+            descTr: "Görsel kimlik yenilemesi ve yüksek performanslı web deneyimi ile dünyanın en büyük tema parkı üreticilerinden birinin dijital varlığını yeniden tasarladık."
+        },
+        {
+            image: "asfat web.png",
+            client: "ASFAT",
+            scopeEn: "Digital Transformation · Front-End Engineering",
+            scopeTr: "Dijital Dönüşüm · Ön Uç Mühendisliği",
+            descEn: "Developing a secure, modern digital platform for Turkey's state-owned defense contractor to communicate national engineering capabilities globally.",
+            descTr: "Türkiye'nin devlet savunma sanayii yüklenicisi için küresel mühendislik kabiliyetlerini sergileyen güvenli ve modern bir dijital platform geliştirdik."
+        }
+    ];
+
+    let currentWorkIndex = 0;
+
+    function updatePowerTooltip() {
+        if (!powerBtn) return;
+        const isActive = powerBtn.classList.contains('active');
+        if (currentLang === 'tr') {
+            powerBtn.setAttribute('data-tooltip', isActive ? 'Kapat' : 'Portföyü Göster');
+        } else {
+            powerBtn.setAttribute('data-tooltip', isActive ? 'Close Showcase' : 'View Showcase');
+        }
+    }
+
+    function changeWork(index) {
+        if (!worksCard) return;
+        const cardInner = worksCard.querySelector('.works-card-inner');
+        if (!cardInner) return;
+        
+        cardInner.classList.add('changing');
+        
+        setTimeout(() => {
+            currentWorkIndex = index;
+            const work = worksData[currentWorkIndex];
+            
+            // Update image
+            const img = worksCard.querySelector('.works-card-image');
+            if (img) {
+                img.src = work.image;
+                img.alt = work.client;
+            }
+            
+            // Update client name
+            const clientName = worksCard.querySelector('.works-card-client-name');
+            if (clientName) clientName.textContent = work.client;
+            
+            // Update scope and description texts with data attributes for translation
+            const scopeTextEl = worksCard.querySelector('.works-card-scope-text');
+            if (scopeTextEl) {
+                scopeTextEl.setAttribute('data-en', work.scopeEn);
+                scopeTextEl.setAttribute('data-tr', work.scopeTr);
+                scopeTextEl.textContent = currentLang === 'tr' ? work.scopeTr : work.scopeEn;
+            }
+            
+            const notesTextEl = worksCard.querySelector('.works-card-notes-text');
+            if (notesTextEl) {
+                notesTextEl.setAttribute('data-en', work.descEn);
+                notesTextEl.setAttribute('data-tr', work.descTr);
+                notesTextEl.textContent = currentLang === 'tr' ? work.descTr : work.descEn;
+            }
+            
+            cardInner.classList.remove('changing');
+        }, 300);
+    }
+
+    if (powerBtn && worksCard) {
+        powerBtn.addEventListener('click', () => {
+            const isActive = powerBtn.classList.toggle('active');
+            worksCard.classList.toggle('active');
+            document.body.classList.toggle('showcase-active', isActive);
+            updatePowerTooltip();
+        });
+        // Initial setup
+        updatePowerTooltip();
+        syncWorksCardHeight();
+    }
+
+    if (worksPrevBtn) {
+        worksPrevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            let newIndex = currentWorkIndex - 1;
+            if (newIndex < 0) newIndex = worksData.length - 1;
+            changeWork(newIndex);
+        });
+    }
+
+    if (worksNextBtn) {
+        worksNextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            let newIndex = currentWorkIndex + 1;
+            if (newIndex >= worksData.length) newIndex = 0;
+            changeWork(newIndex);
+        });
     }
 
     // Check URL for language parameter on load
