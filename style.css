@@ -2153,7 +2153,8 @@ html, body {
     transform: translateX(0);
 }
 
-.works-card-image {
+.works-card-image,
+.works-card-video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -2161,7 +2162,8 @@ html, body {
     transition: transform 0.5s ease;
 }
 
-.works-card-left:hover .works-card-image {
+.works-card-left:hover .works-card-image,
+.works-card-left:hover .works-card-video {
     transform: scale(1.05);
 }
 

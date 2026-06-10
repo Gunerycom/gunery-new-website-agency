@@ -2861,6 +2861,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const worksData = [
         {
+            video: "tdudefense - 3d works.mp4",
+            client: "TDU Defense 3D Marketing",
+            scopeEn: "3D Web Engineering · Interactive Product Demos",
+            scopeTr: "3D Web Mühendisliği · Etkileşimli Ürün Gösterimleri",
+            descEn: "Creating a high-fidelity, download-free 3D product visualization platform accessible across all browsers, mobile devices, and desktop computers.",
+            descTr: "Mobil, dizüstü ve masaüstü bilgisayarlardaki tüm tarayıcılardan erişilebilen, indirme gerektirmeyen, yüksek kalitede bir 3D ürün görselleştirme platformu sunduk."
+        },
+        {
+            image: "Modern Bodrum Gunery.png",
+            client: "Modern Bodrum",
+            scopeEn: "Bespoke Software Dev · Scheduling Systems · AI-Assisted Architecture",
+            scopeTr: "Özel Yazılım Geliştirme · Rezervasyon Sistemleri · Yapay Zekâ Destekli Mimari",
+            descEn: "Designing a premium, secure website and custom scheduling booking platform built using Claude, Gemini, and advanced AI systems for an exclusive tennis & paddle club in Bodrum.",
+            descTr: "Bodrum'daki seçkin tenis ve padel kulübü için Claude, Gemini ve gelişmiş yapay zekâ araçlarıyla özel rezervasyon ve planlama yazılımına sahip premium, güvenli bir web sitesi geliştirdik."
+        },
+        {
             image: "outdoor factory gunery.png",
             client: "Outdoor Factory",
             scopeEn: "Branding Update · Content Creation · Website Dev",
@@ -2872,9 +2888,25 @@ document.addEventListener('DOMContentLoaded', () => {
             image: "asfat web.png",
             client: "ASFAT",
             scopeEn: "Digital Transformation · Front-End Engineering",
-            scopeTr: "Dijital Dönüşüm · Ön Uç Mühendisliği",
-            descEn: "Developing a secure, modern digital platform for Turkey's state-owned defense contractor to communicate national engineering capabilities globally.",
-            descTr: "Türkiye'nin devlet savunma sanayii yüklenicisi için küresel mühendislik kabiliyetlerini sergileyen güvenli ve modern bir dijital platform geliştirdik."
+            scopeTr: "Dijital Dönüşüm · Websitesi Tasarım ve Uygulama",
+            descEn: "Proudly designing and engineering the digital presence for ASFAT, ranked 78th in the Top 100 global defense companies of 2025, showcasing their national engineering power.",
+            descTr: "2025 yılı Top 100 küresel savunma firması listesinde 78. sırada yer alan ASFAT'ın ulusal mühendislik gücünü sergileyen dijital varlığını ve web platformunu gururla tasarlayıp geliştirdik."
+        },
+        {
+            image: "TDU Defense digital works.png",
+            client: "TDU Defense",
+            scopeEn: "Digital Strategy · Brand Copywriting · Lead Generation Web",
+            scopeTr: "Dijital Strateji · Metin Yazarlığı · Lider Odaklı Web",
+            descEn: "Overhauling the digital messaging and web platform for TDU Defense, engineering optimized product pitches and lead-gen systems to scale their global impact.",
+            descTr: "TDU Defense için dijital mesajlaşmayı ve web platformunu yeniden yapılandırdık; küresel etkilerini ölçeklendirmek için optimize edilmiş ürün sunumları ve lead-gen sistemleri tasarladık."
+        },
+        {
+            image: "Clooned 3D studio.png",
+            client: "Clooned",
+            scopeEn: "Custom SaaS Engine · SaaS Marketing · SaaS Management",
+            scopeTr: "Sıfırdan SaaS Sistemi · SaaS Pazarlaması · SaaS Yönetimi",
+            descEn: "Building Clooned from the ground up: a comprehensive SaaS platform for interactive 3D models, engineered from feature concept to production with over 5,000 active users.",
+            descTr: "Clooned'u sıfırdan inşa ettik: 5.000'den fazla aktif kullanıcıya sahip, etkileşimli 3D modeller için özellik tasarımından yayına kadar A'dan Z'ye geliştirilen kapsamlı bir SaaS platformu."
         }
     ];
 
@@ -2901,11 +2933,27 @@ document.addEventListener('DOMContentLoaded', () => {
             currentWorkIndex = index;
             const work = worksData[currentWorkIndex];
             
-            // Update image
+            // Update image or video
             const img = worksCard.querySelector('.works-card-image');
-            if (img) {
-                img.src = work.image;
-                img.alt = work.client;
+            const video = worksCard.querySelector('.works-card-video');
+            
+            if (work.video) {
+                if (img) img.style.display = 'none';
+                if (video) {
+                    video.src = work.video;
+                    video.style.display = 'block';
+                    video.play().catch(e => console.log("Video play error:", e));
+                }
+            } else {
+                if (video) {
+                    video.style.display = 'none';
+                    video.src = '';
+                }
+                if (img) {
+                    img.src = work.image || '';
+                    img.alt = work.client || '';
+                    img.style.display = 'block';
+                }
             }
             
             // Update client name
@@ -2937,6 +2985,19 @@ document.addEventListener('DOMContentLoaded', () => {
             worksCard.classList.toggle('active');
             document.body.classList.toggle('showcase-active', isActive);
             updatePowerTooltip();
+            
+            // Handle video play/pause on toggle
+            const video = worksCard.querySelector('.works-card-video');
+            if (video) {
+                if (!isActive) {
+                    video.pause();
+                } else {
+                    const work = worksData[currentWorkIndex];
+                    if (work && work.video) {
+                        video.play().catch(e => console.log("Video play error:", e));
+                    }
+                }
+            }
         });
         // Initial setup
         updatePowerTooltip();
