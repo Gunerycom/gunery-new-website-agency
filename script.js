@@ -1806,13 +1806,18 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.classList.add('sending');
         submitBtn.querySelector('.btn-text').textContent = t.sendingBtn;
         
-        const formData = new FormData(form);
-        formData.append('form-name', 'contact');
+        const payload = {
+            name: nameInput.value.trim(),
+            surname: surnameInput.value.trim(),
+            company: form.querySelector('[name="company"]')?.value.trim() || '',
+            email: emailInput.value.trim(),
+            message: messageInput.value.trim()
+        };
         
-        fetch('/', {
+        fetch('/api/contact', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams(formData).toString()
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
         })
         .then(response => {
             if (!response.ok) {
@@ -1841,7 +1846,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 400);
         })
         .catch(error => {
-            console.error('Error submitting to Netlify Forms:', error);
+            console.error('Error submitting contact form:', error);
             submitBtn.disabled = false;
             submitBtn.classList.remove('sending');
             submitBtn.querySelector('.btn-text').textContent = t.sendBtn;
@@ -2856,12 +2861,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // WORKS SHOWCASE SLIDER & POWER BUTTON LOGIC
     // --------------------------------------------
     const powerBtn = document.getElementById('powerBtn');
+    const powerHint = document.getElementById('powerHint');
     const worksPrevBtn = document.getElementById('worksPrevBtn');
     const worksNextBtn = document.getElementById('worksNextBtn');
 
     const worksData = [
         {
-            video: "tdudefense - 3d works.mp4",
+            video: "tdudefense - 3d works min.mp4",
             client: "TDU Defense 3D Marketing",
             scopeEn: "3D Web Engineering · Interactive Product Demos",
             scopeTr: "3D Web Mühendisliği · Etkileşimli Ürün Gösterimleri",
@@ -2869,7 +2875,7 @@ document.addEventListener('DOMContentLoaded', () => {
             descTr: "Mobil, dizüstü ve masaüstü bilgisayarlardaki tüm tarayıcılardan erişilebilen, indirme gerektirmeyen, yüksek kalitede bir 3D ürün görselleştirme platformu sunduk."
         },
         {
-            image: "Modern Bodrum Gunery.png",
+            image: "Modern Bodrum Gunery.webp",
             client: "Modern Bodrum",
             scopeEn: "Bespoke Software Dev · Scheduling Systems · AI-Assisted Architecture",
             scopeTr: "Özel Yazılım Geliştirme · Rezervasyon Sistemleri · Yapay Zekâ Destekli Mimari",
@@ -2877,7 +2883,7 @@ document.addEventListener('DOMContentLoaded', () => {
             descTr: "Bodrum'daki seçkin tenis ve padel kulübü için Claude, Gemini ve gelişmiş yapay zekâ araçlarıyla özel rezervasyon ve planlama yazılımına sahip premium, güvenli bir web sitesi geliştirdik."
         },
         {
-            image: "outdoor factory gunery.png",
+            image: "outdoor factory gunery.webp",
             client: "Outdoor Factory",
             scopeEn: "Branding Update · Content Creation · Website Dev",
             scopeTr: "Marka Güncellemesi · İçerik Üretimi · Web Geliştirme",
@@ -2885,7 +2891,7 @@ document.addEventListener('DOMContentLoaded', () => {
             descTr: "Görsel kimlik yenilemesi ve yüksek performanslı web deneyimi ile dünyanın en büyük tema parkı üreticilerinden birinin dijital varlığını yeniden tasarladık."
         },
         {
-            image: "asfat web.png",
+            image: "asfat web.webp",
             client: "ASFAT",
             scopeEn: "Digital Transformation · Front-End Engineering",
             scopeTr: "Dijital Dönüşüm · Websitesi Tasarım ve Uygulama",
@@ -2893,7 +2899,7 @@ document.addEventListener('DOMContentLoaded', () => {
             descTr: "2025 yılı Top 100 küresel savunma firması listesinde 78. sırada yer alan ASFAT'ın ulusal mühendislik gücünü sergileyen dijital varlığını ve web platformunu gururla tasarlayıp geliştirdik."
         },
         {
-            image: "TDU Defense digital works.png",
+            image: "TDU Defense digital works.webp",
             client: "TDU Defense",
             scopeEn: "Digital Strategy · Brand Copywriting · Lead Generation Web",
             scopeTr: "Dijital Strateji · Metin Yazarlığı · Lider Odaklı Web",
@@ -2901,7 +2907,7 @@ document.addEventListener('DOMContentLoaded', () => {
             descTr: "TDU Defense için dijital mesajlaşmayı ve web platformunu yeniden yapılandırdık; küresel etkilerini ölçeklendirmek için optimize edilmiş ürün sunumları ve lead-gen sistemleri tasarladık."
         },
         {
-            image: "Clooned 3D studio.png",
+            image: "Clooned 3D studio.webp",
             client: "Clooned",
             scopeEn: "Custom SaaS Engine · SaaS Marketing · SaaS Management",
             scopeTr: "Sıfırdan SaaS Sistemi · SaaS Pazarlaması · SaaS Yönetimi",
@@ -3002,6 +3008,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initial setup
         updatePowerTooltip();
         syncWorksCardHeight();
+    }
+
+    if (powerHint && powerBtn) {
+        powerHint.addEventListener('click', () => {
+            powerBtn.click();
+        });
+        powerHint.addEventListener('mouseenter', () => {
+            powerBtn.classList.add('hint-hovered');
+        });
+        powerHint.addEventListener('mouseleave', () => {
+            powerBtn.classList.remove('hint-hovered');
+        });
     }
 
     if (worksPrevBtn) {

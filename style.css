@@ -1943,7 +1943,8 @@ html, body {
     }
 }
 
-.power-btn:hover {
+.power-btn:hover,
+.power-btn.hint-hovered {
     background: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.4);
     color: #fff;
@@ -2027,14 +2028,22 @@ html, body {
     letter-spacing: 0.02em;
     color: rgba(255, 255, 255, 0.95);
     white-space: nowrap;
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
     opacity: 1;
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 98;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.power-hint:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.08), 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
 /* Auto-hide hint when button is active or hovered (showing tooltip instead) */
@@ -2959,6 +2968,10 @@ html, body {
     .works-card-notes-text {
         font-size: 12px;
         line-height: 1.5;
+    }
+
+    .works-card-image {
+        object-position: top;
     }
 }
 
