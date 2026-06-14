@@ -1,0 +1,15 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/gg",
+      "destination": "/GG",
+      "permanent": true
+    },
+    {
+      "source": "/og",
+      "destination": "/OG",
+      "permanent": true
+    }
+  ]
+}
